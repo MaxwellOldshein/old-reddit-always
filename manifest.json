@@ -3,14 +3,20 @@
     "name": "Old Reddit Always",
     "version": "1.0",
     "description": "Redirects users from the New Reddit redesign to the Old Reddit. Always.",
-    "permissions": ["declarativeNetRequest"],
+    "permissions": [
+        "declarativeNetRequest",
+        "storage"
+    ],
     "host_permissions": ["*://*.reddit.com/*"],
-    "declarative_net_request": {
-        "rule_resources": [{
-            "id": "reddit_redirect",
-            "enabled": true,
-            "path": "rules.json"
-        }]
+    "background": {
+        "scripts": ["background.js"],
+        "service_worker": "background.js",
+        "type": "module"
+    },
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "dev-extension@example.com"
+        }
     },
     "icons": {
         "16": "icon16.png",
