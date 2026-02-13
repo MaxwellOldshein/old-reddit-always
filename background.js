@@ -12,7 +12,7 @@ chrome.runtime.onInstalled.addListener(() => {
                     }
                 },
                 "condition": {
-                    "regexFilter": "^https:\\/\\/(?:www\\.)?reddit\\.com(.*)?$",
+                    "regexFilter": "^https:\\/\\/(?:www\\.)?reddit\\.com((?!\\/media).*)?$",
                     "resourceTypes": ["main_frame"]
                 }
             }
