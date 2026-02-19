@@ -1,0 +1,70 @@
+name: "Build chrome and firefox releases"
+run-name: "Build for ${{ github.ref_name }}"
+on:
+  push:
+    tags:
+      - 'v*'
+jobs:
+  build-browser-extension:
+    name: "Build ${{ matrix.browser }} extension artifact"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        browser: [chrome, firefox]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create version environment variable
+        run: |-
+          TAG_NAME=${{ github.ref_name}}
+          echo "Version: ${TAG_NAME#v}"
+          echo "VERSION=${TAG_NAME#v}" >> $GITHUB_ENV
+
+      - name: Update manifest version
+        id: update-manifest-version
+        env: 
+          VERSION: ${{ env.VERSION }}
+        run: |-
+          jq --arg version "$VERSION" -r '.version = $version' manifest.json > temp.json \
+          && mv temp.json manifest.json
+
+      - name: Update manifest with needed chrome attributes
+        if: matrix.browser == 'chrome'
+        id: update-manifest-with-needed-chrome-attributes
+        run: |-
+          jq -r 'del(.background.scripts) | del(.browser_specific_settings) | .background += {"service_worker": "background.js"}' manifest.json > temp.json \
+          && mv temp.json manifest.json
+          
+      - name: Build ${{ matrix.browser }} extension
+        run: |-
+          cd old-reddit-always && zip -r ../old-reddit-always-${{ github.ref_name }}-${{ matrix.browser }}.zip .
+      
+      - name: Archive ${{matrix.browser}} extension artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: old-reddit-always-${{ github.ref_name }}-${{ matrix.browser }}
+          path: old-reddit-always-${{ github.ref_name }}-${{ matrix.browser }}.zip
+  create-release:
+    needs: build-browser-extension
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download all browser extension artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Extract release notes
+        id: extract_release_notes
+        uses: charlesw0/extract-changelog-action@v1
+        with:
+          version: ${{ github.ref_name }}
+
+      - name: Create release and upload browser extention assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: "**/*.zip"
+          body: ${{ steps.extract_release_notes.outputs.changelog }}
+          generate_release_notes: true
+          draft: false
+          prerelease: false
