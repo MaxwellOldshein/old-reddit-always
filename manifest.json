@@ -9,9 +9,7 @@
     ],
     "host_permissions": ["*://*.reddit.com/*"],
     "background": {
-        "scripts": ["background.js"],
-        "service_worker": "background.js",
-        "type": "module"
+        "scripts": ["background.js"]
     },
     "browser_specific_settings": {
         "gecko": {
