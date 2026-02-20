@@ -38,7 +38,7 @@ jobs:
           
       - name: Build ${{ matrix.browser }} extension
         run: |-
-          zip -r ../old-reddit-always-${{ github.ref_name }}-${{ matrix.browser }}.zip .
+          zip -r old-reddit-always-${{ github.ref_name }}-${{ matrix.browser }}.zip .
       
       - name: Archive ${{matrix.browser}} extension artifact
         uses: actions/upload-artifact@v4
@@ -56,15 +56,13 @@ jobs:
 
       - name: Extract release notes
         id: extract_release_notes
-        uses: charlesw0/extract-changelog-action@v1
-        with:
-          version: ${{ github.ref_name }}
+        uses: ffurrer2/extract-release-notes@v2
 
       - name: Create release and upload browser extention assets
         uses: softprops/action-gh-release@v2
         with:
           files: "**/*.zip"
-          body: ${{ steps.extract_release_notes.outputs.changelog }}
+          body: ${{ steps.extract_release_notes.outputs.release_notes }}
           generate_release_notes: true
           draft: false
           prerelease: false
