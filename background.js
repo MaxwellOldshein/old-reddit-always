@@ -4,6 +4,17 @@ chrome.runtime.onInstalled.addListener(() => {
         addRules: [
             {
                 "id": 1,
+                "priority": 2,
+                "action": {
+                    "type": "allow"
+                },
+                "condition": {
+                    "regexFilter": "^https?://(www\\.)?reddit\\.com/(gallery|media).*",
+                    "resourceTypes": ["main_frame"]
+                }
+            },
+            {
+                "id": 2,
                 "priority": 1,
                 "action": {
                     "type": "redirect",
@@ -12,7 +23,7 @@ chrome.runtime.onInstalled.addListener(() => {
                     }
                 },
                 "condition": {
-                    "regexFilter": "^https:\\/\\/(?:www\\.)?reddit\\.com((?!\\/media|\\/gallery).*)?$",
+                    "regexFilter": "^https?://(www\\.)?reddit\\.com(/.*)?$",
                     "resourceTypes": ["main_frame"]
                 }
             }
