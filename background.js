@@ -9,7 +9,7 @@ chrome.runtime.onInstalled.addListener(() => {
                     "type": "allow"
                 },
                 "condition": {
-                    "regexFilter": "^https?://(www\\.)?reddit\\.com/(gallery|media).*",
+                    "regexFilter": "^https?://(?:www\\.)?reddit\\.com/(?:gallery|media).*",
                     "resourceTypes": ["main_frame"]
                 }
             },

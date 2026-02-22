@@ -2,6 +2,10 @@
 
 Notable changes made to this project will be documented in a detailed fashion within this file below.
 
+## 1.2.2 - 02.22.2026
+### Fixed
+- Updated URL redirect RegEx to resolve issues with Reddit media and gallery links in the new "allow" rule.
+
 ## 1.2.1 - 02.22.2026
 ### Fixed
 - Fixed regexFilter error occurring in Chrome by re-working URL redirect RegEx logic to be RE2 compliant.
