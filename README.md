@@ -8,7 +8,7 @@ Lightweight extension to redirect reddit.com redesign to old.reddit.com automati
 - Compatible with both Chrome and Firefox browsers
 
 # Install (Local Development)
-1. Clone: `git clone https://github.com/MaxwellOldshein/old-reddit-always`
+1. Visit & Download Latest: `https://github.com/MaxwellOldshein/old-reddit-always/releases`
 2. Chrome: `chrome://extensions`, then `Load Unpacked`
 3. Firefox: `about:debugging`, then `Load Temporary Extension`
 
