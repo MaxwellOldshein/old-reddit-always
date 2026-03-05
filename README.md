@@ -5,6 +5,7 @@ Lightweight extension to redirect reddit.com redesign to old.reddit.com automati
 ## Features
 - Instant redirect to Old Reddit
 - Works on all Reddit paths (ex: `/r/all`, search, etc.)
+- Preserves `/media` and `/gallery` links on Reddit used to host images/videos
 - Compatible with both Chrome and Firefox browsers
 
 # Install (Local Development)
